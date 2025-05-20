@@ -65,9 +65,33 @@ We include random characters in the JSON object in order to hit exactly 1007 byt
 A possible future implementation might use ECB for that slug header and store the *initialization vector* and *nonce*
 there and use a fancier encryption mode on the rest of the slug.  How or if that would help security is unclear.
 
+## EXAMPLES
+
+Fill all free clusters with random bytes.  Slow but recommended before using this tool to store files.
+
+```aiignore
+python3 ./sneaky.py --block device-file --verbose --bleach
+```
+
+Put a file onto the filesystem backwards (recommended) from the end of the free list.
+```aiignore
+python3 ./sneaky.py --block device-file --passphrase Secret --put file.tar.gz --offset -1
+```
+
+Verify any file on the filesystem.
+```aiignore
+python3 ./sneaky.py --block device-file --passphrase Secret --check --offset -1
+```
+
+Get a file from the filesystem and store it locally
+```aiignore
+python3 ./sneaky.py --block device-file --passphrase Secret --get new_file.tar.gz --offset -1
+```
+
 ## TODO
 
 1. Some better test cases and data integrity checks to make sure we don't inadvertently trash an SD card.
 2. Make verbose mode work better and more consistently for all operations.
 3. Rethink how we calculate free clusters.  `sorted(keys(fs.fat))` is likely better than what we do now.
 4. Consider how to do somewhat fancier encryption for our data (but not our header) with a random *iv* and *nonce*.
+5. Test scripts only work on Linux.  For that matter, using this on anything but Linux is kind of problematic for a bunch of reasons.
