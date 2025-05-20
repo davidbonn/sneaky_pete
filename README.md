@@ -1,6 +1,6 @@
-#A SYSTEM TO COVERTLY STORE FILES IN A VFAT FILESYSTEM
+# A SYSTEM TO COVERTLY STORE FILES IN A VFAT FILESYSTEM
 
-##INTRODUCTION
+## INTRODUCTION
 
 This is a set of tools for letting you covertly put bytes on the free clusters of a FAT filesystem.
 It is intended to let you hide data from hostile prying eyes.  While it is likely that skilled
@@ -9,7 +9,7 @@ for them to figure out exactly what that something was.
 
 A good use case for this is hiding data in an SD card used in a digital camera or digital video recorder.
 
-##COMMAND LINE
+## COMMAND LINE
 
 Usage is:
 
@@ -27,7 +27,7 @@ Options are:
 * --put file -- read the given file and put it onto the device
 * --offset int -- offset, default of 1 which starts at the first free cluster and works forward.  -1 uses the last free cluster and works backward.
 
-##ABOUT
+## ABOUT
 
 This tool works by using pyfatfs to read a FAT filesystem directly and its metadata.  It looks for free clusters
 on the filesystem and writes an encrypted slug of data (more about the format of the slug below) in free clusters
@@ -47,7 +47,7 @@ We are using AES encryption in CBC mode.
 It needs to be emphasized that there is a nonzero chance that this tool could or would corrupt existing data on
 the FAT filesystem in question.  So use with caution and care.
 
-##SECURITY NOTES
+## SECURITY NOTES
 
 Nothing about what is stored on any FAT filesystem is duplicated in local storage.  But if you are archiving files
 you obviously had to have copies on another computer and might need to be concerned about that.
@@ -64,3 +64,10 @@ We include random characters in the JSON object in order to hit exactly 1007 byt
 
 A possible future implementation might use ECB for that slug header and store the *initialization vector* and *nonce*
 there and use a fancier encryption mode on the rest of the slug.  How or if that would help security is unclear.
+
+## TODO
+
+1. Some better test cases and data integrity checks to make sure we don't inadvertently trash an SD card.
+2. Make verbose mode work better and more consistently for all operations.
+3. Rethink how we calculate free clusters.  `sorted(keys(fs.fat))` is likely better than what we do now.
+4. Consider how to do somewhat fancier encryption for our data (but not our header) with a random *iv* and *nonce*.
