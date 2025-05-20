@@ -20,6 +20,7 @@ class TestSneaky(unittest.TestCase):
         result_tmp.unlink(missing_ok=True)
 
     def test_bleach(self):
+        """ this is a good place to do file integrity checks """
         size_before = fat_tmp.stat().st_size
         sneaky.bleach(str(fat_tmp))
         size_after = fat_tmp.stat().st_size
