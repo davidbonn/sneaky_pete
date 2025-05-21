@@ -39,6 +39,9 @@ def info(block_device, verbose=False):
 
 
 def check(block_device, passphrase, offset, verbose=False):
+    if verbose:
+        print(f"info: check {block_device} with offset {offset}")
+
     my_key = get_key_from_passphrase(passphrase)
 
     with PyFat.open_fs(block_device) as fs:
@@ -51,6 +54,9 @@ def check(block_device, passphrase, offset, verbose=False):
 
 
 def bleach(block_device, verbose=False):
+    if verbose:
+        print(f"info: bleach {block_device}")
+
     with PyFat.open_fs(block_device) as fs:
         free_clusters = fatops.free_clusters(fs)
 
@@ -65,6 +71,9 @@ def bleach(block_device, verbose=False):
 
 
 def get(block_device, target, passphrase, offset, verbose=False):
+    if verbose:
+        print(f"info: get {target} from {block_device} with offset {offset}")
+
     my_key = get_key_from_passphrase(passphrase)
 
     with PyFat.open_fs(block_device) as fs:
@@ -78,11 +87,20 @@ def get(block_device, target, passphrase, offset, verbose=False):
 
 
 def put(block_device, target, passphrase, offset, verbose=False):
+    if verbose:
+        print(f"info: put {target} into {block_device} with offset {offset}")
+
     my_key = get_key_from_passphrase(passphrase)
 
     with PyFat.open_fs(block_device) as fs:
         free_clusters = fatops.free_clusters(fs, offset)
         my_slug = slug.make_slug(target, fs.bytes_per_cluster)
+
+        if verbose:
+            h = slug.extract_slug_header(my_slug)
+            print(f"info: {h['clusters']} clusters")
+            print(f"info: {h['length']} bytes")
+
         my_slug = slug.encrypt_slug(my_slug, my_key)
         fatops.write_slug(fs, free_clusters, my_slug)
 
