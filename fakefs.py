@@ -58,13 +58,15 @@ def new_fat_fs_for_linux(filename: str, size: str):
 
 def add_file(fs, filename: str, size: int):
     fio, digest = fake_file(size)
-    fs.upload_file(filename, fio)
+    with fs.open(filename, "wb") as f:
+        f.write(fio.getvalue())
     return filename, digest
 
 
 def get_file_hash(fs, filename: str):
     io_obj = io.BytesIO()
-    fs.download_file(filename, io_obj)
+    with fs.open(filename, "rb") as f:
+        io_obj.write(f.read())
     return hashlib.sha256(io_obj.getvalue()).hexdigest()
 
 
