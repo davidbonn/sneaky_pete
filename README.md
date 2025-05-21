@@ -88,6 +88,8 @@ Get a file from the filesystem and store it locally
 python3 ./sneaky.py --block device-file --passphrase Secret --get new_file.tar.gz --offset -1
 ```
 
+Also, if you want to prompt for the passphrase use `--passphrase ''`
+
 ## TODO
 
 1. Some better test cases and data integrity checks to make sure we don't inadvertently trash an SD card.
