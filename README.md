@@ -91,7 +91,7 @@ python3 ./sneaky.py --block device-file --passphrase Secret --get new_file.tar.g
 ## TODO
 
 1. Some better test cases and data integrity checks to make sure we don't inadvertently trash an SD card.
-2. Make verbose mode work better and more consistently for all operations.
-3. Rethink how we calculate free clusters.  `sorted(keys(fs.fat))` is likely better than what we do now.
-4. Consider how to do somewhat fancier encryption for our data (but not our header) with a random *iv* and *nonce*.
-5. Test scripts only work on Linux.  For that matter, using this on anything but Linux is kind of problematic for a bunch of reasons.
+2. Consider how to do somewhat fancier encryption for our data (but not our header) with a random *iv* and *nonce*.
+3. Test scripts only work on Linux.  For that matter, using this on anything but Linux is kind of problematic for a bunch of reasons.
+4. Do error message output in main() and raise exceptions for errors.
+
