@@ -1,0 +1,3 @@
+pyfatfs
+pycryptodome
+progressbar2
